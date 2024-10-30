@@ -6,6 +6,8 @@ library(ggExtra)
 
 ### Grqphs to create: Scatterplot and Parallel Coordinates Plot
 
+### Datasets: penguins, airquality
+
 
 
 penguins_csv <- "https://raw.githubusercontent.com/jcheng5/simplepenguins.R/main/penguins.csv"
