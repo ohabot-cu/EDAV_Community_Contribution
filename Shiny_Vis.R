@@ -4,6 +4,10 @@ library(dplyr)
 library(ggplot2)
 library(ggExtra)
 
+### Grqphs to create: Scatterplot and Parallel Coordinates Plot
+
+
+
 penguins_csv <- "https://raw.githubusercontent.com/jcheng5/simplepenguins.R/main/penguins.csv"
 
 df <- readr::read_csv(penguins_csv)
