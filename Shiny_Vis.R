@@ -17,7 +17,7 @@ library(thematic)
 thematic_shiny(font = "auto")
 
 
-#airquality = data("airquality")
+# prepare airquality data
 airquality$Date = as.Date(sprintf("1973-%02d-%02d", airquality$Month, airquality$Day), format="%Y-%m-%d")
 airquality$Month <- fct_recode(as.factor(airquality$Month),
                                "May" = "5",
@@ -26,15 +26,17 @@ airquality$Month <- fct_recode(as.factor(airquality$Month),
                                "August" = "8",
                                "September" = "9")
 
+# subsets of columns suitable for ui selection
 selection_x_data <- airquality |>
   select(-Month, -Day)
-
 selection_y_data <- airquality |>
   select(-Month, -Day, -Date)
 
+
+# prepare penguins data
 penguins_csv <- "https://raw.githubusercontent.com/jcheng5/simplepenguins.R/main/penguins.csv"
 penguins <- drop_na(readr::read_csv(penguins_csv))
-# Find subset of columns that are suitable for scatter plot
+# subsets of columns suitable for ui selection
 penguins_num <- penguins |> select(where(is.numeric), -Year)
 penguins_cat <- penguins |> select(where(is.character))
 
