@@ -4,6 +4,8 @@ library(dplyr)
 library(tidyverse)
 library(ggplot2)
 library(ggExtra)
+library(Lock5withR)
+library(redav)
 library(thematic)
 
 ### Grqphs to create: Scatterplot and Parallel Coordinates Plot
@@ -47,6 +49,7 @@ ui <- fluidPage(
   
   headerPanel("Demonstration of Interactive Graphs Using Shiny"),
   
+  # Airquality Univariate
   tabsetPanel(
     type = "pills",
     
@@ -66,6 +69,7 @@ ui <- fluidPage(
       )
     ),
     
+    #Airquality Bivariate
     tabPanel(
       "Bivariate", 
       titlePanel("Airquality on Roosevelt Island 1973"),
@@ -86,6 +90,7 @@ ui <- fluidPage(
     
     tabPanel("|"),
     
+    # Penguins multivariate
     tabPanel(
       "Multivariate",
       titlePanel("Penguins Data"),
@@ -113,7 +118,31 @@ ui <- fluidPage(
           plotOutput('parcoordplot')
         )
       )
-    )
+    ),
+    
+    tabPanel("|"),
+    
+    # Cereal Biplot 
+    tabPanel(
+      "Biplot",
+      titlePanel("Biplot With Cereal Data"),
+      sidebarLayout(
+        sidebarPanel(
+          varSelectInput(
+            "axis", "Key Axis",
+            data = select(Cereal, where(is.numeric))
+          ),
+          hr(),
+          checkboxInput(
+            "project", "Show Projection",
+            FALSE
+          )
+        ),
+        mainPanel(
+          plotOutput('biplot')
+        )
+      )
+    ),
   )
 )
 
@@ -174,6 +203,17 @@ server <- function(input, output) {
         labs(title='Scatterplot of Roosevelt Island Weather Data (1973)'),
         if(input$xvar == "Date") geom_line()
       ) -> scatter
+    
+    scatter
+    
+  }, res = 100, height = 700, width = 700)
+  
+  output$biplot <- renderPlot({
+    draw_biplot(Cereal
+                , label_size = 3.5
+                , key_axis = as.character(input$axis)
+                , project = input$project) +
+      labs(title = as.character(input$axis)) -> scatter
     
     scatter
     
